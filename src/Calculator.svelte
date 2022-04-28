@@ -1,10 +1,9 @@
 <script>
   export let title = "";
 
-  const EQUAL_OPERATOR = "=";
-
   let allCalculation = "";
   let displayValue = "";
+  let totalized = false;
 
   function calculate() {
     const infoToCalculate = allCalculation.split(" ");
@@ -41,9 +40,26 @@
     return total;
   }
 
+  function handleEqualClick(event) {
+    if (totalized) {
+      return;
+    }
+
+    handleClickButton(event);
+
+    totalized = true;
+
+    const result = calculate();
+
+    allCalculation += result;
+
+    displayValue = result;
+  }
+
   function handleClearClick() {
     allCalculation = "";
     displayValue = "";
+    totalized = false;
   }
 
   function handleBackspaceClick() {
@@ -59,21 +75,26 @@
     if (isOperador) {
       const operator = value;
 
+      if (totalized) {
+        allCalculation = `${displayValue} ${operator} `;
+        displayValue = "";
+        totalized = false;
+      } else {
       allCalculation += `${displayValue} ${operator} `;
       displayValue = "";
-
-      if (operator === EQUAL_OPERATOR) {
-        const result = calculate();
-
-        allCalculation += result;
-
-        displayValue = result;
       }
 
       return;
     }
     
-    displayValue += decimalSeparator ? '.' : value;
+    const sepatator = displayValue ? "." : "0.";
+
+    if (totalized) {
+      totalized = false
+      displayValue = decimalSeparator ? sepatator : value;
+    } else {
+      displayValue += decimalSeparator ? sepatator : value;
+    }
   }
 </script>
 
@@ -94,6 +115,8 @@
       <button class="text-sm text-gray-500 m-4" on:click={handleClearClick}>
         clear all
       </button>
+
+      {#if !totalized}
       <button
         class="flex items-center justify-end border-none pr-1"
         on:click={handleBackspaceClick}
@@ -115,6 +138,7 @@
           /> <path d="M12 10l4 4m0 -4l-4 4" /></svg
         >
       </button>
+      {/if}
     </div>
 
     <div class="flex flex-1 flex-row">
@@ -175,7 +199,7 @@
           >0</button>
 
           <button
-            on:click={handleClickButton}
+            on:click={handleEqualClick}
             class="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-full"
           >=</button>
         </div>
