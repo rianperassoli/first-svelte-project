@@ -101,14 +101,15 @@
 <div>
   <p class="text-gray-100 text-2xl text-center mb-10">{title}</p>
 
-  <div class="flex-col p-10 bg-gray-100 rounded">
-    <div class="flex flex-col">
-      <textarea class="resize-none text-sm rounded-md mb-1 h-20"
-        >{allCalculation}</textarea
-      >
-      <p class="text-gray-800 font-bold m-2 p-1 text-2xl text-right">
+  <div class="flex-col p-3 bg-gray-100 max-w-xs rounded">
+    <div class="flex flex-col mb-10">
+      <textarea 
+        class="bg-gray-300 border-none resize-none text-sm rounded mb-1 h-20 p-2 m-2"
+      >{allCalculation}</textarea>
+      
+      <p class="overflow-hidden bg-gray-300 text-gray-800 font-bold m-2 p-2 text-2xl text-right h-12 rounded">
         {displayValue}
-      </p>
+      </p>      
     </div>
 
     <div class="inline-grid grid-cols-2 grid-rows-1 h-full w-full">
